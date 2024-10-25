@@ -1,0 +1,43 @@
+<div class="container">
+    <hr>
+    <h2>RIFAS</h2>
+    <a class="btn btn-success" href="/rifa/novarifa">CRIAR NOVA RIFA</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TITULO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% rifas.forEach(rifa =>{ %>
+                <tr>
+                    <td><%= rifa.id %></td>
+                    <td><%= rifa.titulo %></td>
+                    <td>
+                        <form method="GET" action="/rifa/<%= rifa.id %>" style="display: inline">
+                            <button class="btn">Detalhes</button>
+                        </form>
+                    </td>
+                    <br>
+                    <td>
+                        <form method="POST" action="/rifa/delete" style="display: inline", onsubmit="confirmDelete(event, this)">
+                            <input type="hidden" name="id" value="<%= rifa.id %>">
+                            <button class="btn">Delete</button>
+                        </form>
+                    </td>                    
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<script>
+    function confirmDelete(event, form){
+        event.preventDefault();
+        var decision = confirm("QUER EXCLUIR ESSA RIFA?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>

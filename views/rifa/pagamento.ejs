@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1976d2;
+            font-size: 2.5em;
+        }
+
+        h3 {
+            color: #1976d2;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        .comprovante-button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background-color: #1976d2;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .comprovante-button:hover {
+            background-color: #115293;
+        }
+
+        .separator {
+            margin: 20px 0;
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h2>Resumo da Compra</h2>
+    <p><strong>Nome:</strong> <%= nome %></p>
+    <p><strong>CPF:</strong> <%= cpf %></p>
+    <p><strong>Número de telefone:</strong> <%= telefone %></p>
+    <p><strong>Números Selecionados:</strong> <%= numeros %></p>
+    
+    <div class="separator"></div>
+    
+    <h3>Você deve realizar o pagamento via PIX para o CNPJ abaixo!</h3>
+    <p><strong>CNPJ:</strong> <%= cnpj %></p>
+    <p><strong>Valor Total a Pagar:</strong> R$ <%= valorTotal.toFixed(2) %></p>
+    <p><strong>Ao finalizar o pagamento, favor enviar um comprovante do PIX, clicando ao botão abaixo</strong></p>
+
+    <a href="https://wa.me/5548999358824?text=Olá,%20gostaria%20de%20enviar%20o%20comprovante%20do%20pagamento%20para%20a%20rifa!" 
+       target="_blank" 
+       class="comprovante-button">
+       Enviar comprovante
+    </a>
+</body>
+</html>

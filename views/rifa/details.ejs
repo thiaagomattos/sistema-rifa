@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= rifa ? rifa.titulo : 'Rifa não encontrada' %></title>
+    <style>
+        .imagem-prancha {
+            max-width: 100%; /* Para garantir que a imagem não ultrapasse a largura do contêiner */
+            height: auto; /* Mantém a proporção da imagem */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #00796b;
+            font-size: 2.5em;
+        }
+
+        h3 {
+            color: #00796b;
+        }
+
+        .accordion {
+            background-color: #4db6ac;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            text-align: left;
+            outline: none;
+            transition: background-color 0.3s;
+            width: 100%;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .accordion:hover {
+            background-color: #009688;
+        }
+
+        .panel {
+            padding: 10px 20px;
+            display: none;
+            overflow: hidden;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .numero {
+            display: inline-block;
+            margin: 5px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2><%= rifa ? rifa.titulo : 'Rifa não encontrada' %></h2>
+    <p>Rifa ASJ em prol do campeonato Interassociações! <br>
+        <br>
+        Primeiro prêmio: Uma prancha nova, fabricada pelo shaper Kxo (@kxoshaper);<br>
+        Segundo prêmio: Drone; <br>
+        Terceiro prêmio: Bicicleta;<br> 
+        Quarto prêmio: Óculos de sol ChilliBeans;<br> 
+        <br>
+        VALOR POR NÚMERO: R$25,00!
+        <br>
+        Sorteio dia 30/11/2024!
+    </p>
+
+    <img src="/img/premios.jpeg" alt="Prancha de Surf" class="imagem-prancha">
+
+    <h3>Números Disponíveis:</h3>
+    <button class="accordion">Selecionar Números</button>
+    <div class="panel" id="numerosDisponiveis">
+        <% numerosDisponiveis.forEach(numero => { %>
+            <label class="numero">
+                <input type="checkbox" name="numeros" value="<%= numero.numero %>" onchange="atualizaNumerosSelecionados(this)">
+                <%= numero.numero %>
+            </label>
+        <% }) %>
+    </div>
+    <br>
+
+    <form method="POST" action="/rifa/comprar/<%= rifa.id %>">
+        <br>
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" placeholder="Digite seu nome" required>
+        </div>
+        <br>
+        <div>
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" placeholder="123.456.789-10" required>
+        </div>
+        <br>
+        <div>
+            <label for="telefone">Número de telefone:</label>
+            <input type="text" name="telefone" placeholder="(XX) 91234-5678" required>
+        </div>
+        <br>
+        
+        <div>
+            <label>Números Selecionados:</label>
+            <input type="text" id="numerosSelecionadosVisivel" readonly>
+        </div>
+        
+        <input type="hidden" name="numerosSelecionados" id="numerosSelecionados">
+        
+        <br>
+        <div>
+            <button type="submit">Comprar</button>
+        </div>
+    </form>
+    
+    <script>
+        const acc = document.getElementsByClassName("accordion");
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const panel = this.nextElementSibling;
+                panel.style.display = panel.style.display === "block" ? "none" : "block";
+            });
+        }
+
+        function atualizaNumerosSelecionados() {
+            const numerosSelecionadosVisivel = document.getElementById("numerosSelecionadosVisivel");
+            const numerosSelecionados = document.getElementById("numerosSelecionados");
+            const selectedNumbers = Array.from(document.querySelectorAll("input[name='numeros']:checked")).map(cb => cb.value);
+
+            numerosSelecionadosVisivel.value = selectedNumbers.join(", ");
+            numerosSelecionados.value = JSON.stringify(selectedNumbers); 
+        }
+    </script>
+</body>
+</html>

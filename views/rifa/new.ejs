@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIFA</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>NOVA RIFA</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/rifa/salvar">
+                    <input class="form-control" type="text" name="titulo" placeholder="Digite o nome da Rifa"><br>
+                    <br>
+                    <textarea class="form-control" type="text"  name="descricao" id="rifa" placeholder="Escreva a descrição da rifa aqui"></textarea><br>
+                    <br>
+                    <button class="btn btn-success">CRIAR</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
