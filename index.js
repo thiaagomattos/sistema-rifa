@@ -25,17 +25,24 @@ app.get("/", (req, res) => {
 Rifa.hasMany(NumeroRifa, { foreignKey: 'rifaId' });
 NumeroRifa.belongsTo(Rifa, { foreignKey: 'rifaId' });
 
+Compra.belongsToMany(NumeroRifa, { through: CompraNumero, foreignKey: 'compraId' });
+NumeroRifa.belongsToMany(Compra, { through: CompraNumero, foreignKey: 'numeroRifaId' });
+
 Compra.hasMany(CompraNumero, { foreignKey: 'compraId' });
 CompraNumero.belongsTo(Compra, { foreignKey: 'compraId' });
 
-NumeroRifa.hasMany(CompraNumero, { foreignKey: 'numeroId' });
-CompraNumero.belongsTo(NumeroRifa, { foreignKey: 'numeroId' });
+NumeroRifa.hasMany(CompraNumero, { foreignKey: 'numeroRifaId' });
+CompraNumero.belongsTo(NumeroRifa, { foreignKey: 'numeroRifaId' });
+
 
 // Função para criar a rifa e os números associados
 async function initializeDatabase() {
     try {
         await sequelize.sync({ force: true });
         console.log("Tabelas sincronizadas com sucesso!");
+
+        await sequelize.query("ALTER TABLE compras MODIFY COLUMN telefone VARCHAR(15);");
+        console.log("Coluna 'telefone' alterada com sucesso.");
 
         // Cria a rifa
         const rifaCriada = await Rifa.create({

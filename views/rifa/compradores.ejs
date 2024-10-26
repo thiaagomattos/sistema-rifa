@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compradores da Rifa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        .comprador {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h2>Compradores da Rifa</h2>
+    <% if (numerosVendidos.length === 0) { %>
+        <p>Nenhum comprador encontrado para esta rifa.</p>
+    <% } else { %>
+        <% numerosVendidos.forEach(compra => { %>
+            <div class="comprador">
+                <strong>Nome:</strong> <%= compra.nome %> <br>
+                <strong>CPF:</strong> <%= compra.cpf %> <br>
+                <strong>Números Comprados:</strong> <%= compra.numeros %> <br>
+                <strong>Telefone:</strong> <%= compra.telefone %> <br>
+                <hr>
+            </div>
+        <% }) %>
+    <% } %>
+</body>
+</html>

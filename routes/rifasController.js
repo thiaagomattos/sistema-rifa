@@ -22,7 +22,7 @@ router.get("/rifa/:id", async (req, res) => {
     try {
         const rifa = await Rifa.findByPk(id);
         const numerosDisponiveis = await NumeroRifa.findAll({
-            where: { disponivel: true, rifaId: id } // Filtra os números disponíveis
+            where: { disponivel: true, rifaId: id } 
         });
 
         res.render("rifa/details", { rifa, numerosDisponiveis });
@@ -35,10 +35,30 @@ router.get("/rifa/:id", async (req, res) => {
 
 router.post("/rifa/comprar/:id", async (req, res) => {
     const { nome, cpf, telefone, numerosSelecionados } = req.body;
-    const numeros = JSON.parse(numerosSelecionados); 
-    const quantidadeNumeros = numeros.length; 
+
+    let numeros;
+    try {
+        numeros = JSON.parse(numerosSelecionados); 
+    } catch (error) {
+        return res.status(400).send("Formato de números selecionados inválido.");
+    }
+
+    const quantidadeNumeros = Array.isArray(numeros) ? numeros.length : 0; 
     const valorTotal = quantidadeNumeros * 25.00; 
-    const cnpj = "02.353.517/0001-90"; 
+    const cnpj = "xxxxxxxxxx";  
+
+    if (telefone.length < 10 || telefone.length > 18) {
+        return res.status(400).send("Número de telefone inválido.");
+    }
+    if (cpf.length < 11 || cpf.length > 14) { 
+        return res.status(400).send("Número de CPF inválido.");
+    }
+    if (nome.length < 2) {
+        return res.status(400).send("Nome inválido.");
+    }
+    if (quantidadeNumeros === 0) {
+        return res.status(400).send("Você deve selecionar pelo menos um número de rifa.");
+    }
 
     try {
 
@@ -83,6 +103,23 @@ router.post("/rifa/comprar/:id", async (req, res) => {
     } catch (error) {
         console.error("Erro ao processar a compra:", error);
         res.status(500).send("Erro ao processar a compra.");
+    }
+});
+
+router.get("/rifa/compradores/:id", async (req, res) => {
+    const rifaId = req.params.id;
+
+    try {
+        const numerosVendidos = await Compra.findAll({
+            where: { 
+                rifaId: rifaId,
+            }
+        });
+
+        res.render("rifa/compradores",{numerosVendidos: numerosVendidos}); 
+    } catch (error) {
+        console.error("Erro ao buscar compradores:", error);
+        res.status(500).send("Erro ao buscar compradores.");
     }
 });
 

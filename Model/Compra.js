@@ -20,6 +20,10 @@ Compra.init({
     },
     numeros:{
         type: DataTypes.STRING,
+        allowNull: false      
+    },
+    telefone:{
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     rifaId: {
